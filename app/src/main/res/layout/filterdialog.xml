@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_margin="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:layout_marginTop="10dp"
+        android:text="Sorting features"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <RadioGroup
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/sortprice"
+            android:text="Sort By Lowest Price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/sortdistance"
+            android:text="Sort By Nearest Shop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/sortrating"
+            android:text="Sort By Shop Rating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+    <TextView
+        android:layout_marginTop="10dp"
+        android:text="Other features"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <CheckBox
+        android:id="@+id/checkoutofstock"
+        android:text="Avoid Out Of Stock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <CheckBox
+        android:id="@+id/checkunrated"
+        android:text="Avoid Unrated Shops"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="Max no: of shops to show"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/seekvalue"
+        android:textColor="#000"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:text="10 Shops atmost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <SeekBar
+        android:progress="12"
+        android:id="@+id/seekbar"
+        android:max="19"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:weightSum="2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/cancel"
+            android:layout_weight="1"
+            android:text="Cancel"
+            app:bootstrapBrand="danger"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/filter"
+            android:layout_weight="1"
+            android:text="Filter"
+            app:bootstrapBrand="success"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</LinearLayout>

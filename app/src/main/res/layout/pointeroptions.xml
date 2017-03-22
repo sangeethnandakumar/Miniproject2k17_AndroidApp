@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_margin="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <ImageView
+                android:src="@drawable/shopinfo"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <com.beardedhen.androidbootstrap.BootstrapButton
+                    android:id="@+id/shopinfo"
+                    app:roundedCorners="true"
+                    app:bootstrapBrand="info"
+                    android:text="Shop Information"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <ImageView
+                android:src="@drawable/planroute"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <com.beardedhen.androidbootstrap.BootstrapButton
+                    android:id="@+id/planroute"
+                    app:roundedCorners="true"
+                    app:bootstrapBrand="success"
+                    android:text="Plan Route to shop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <ImageView
+                android:src="@drawable/contactshop"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <com.beardedhen.androidbootstrap.BootstrapButton
+                    android:id="@+id/contactshop"
+                    app:roundedCorners="true"
+                    app:bootstrapBrand="secondary"
+                    android:text="Contact Shopkeeper"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <ImageView
+                android:src="@drawable/rateandreview"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <com.beardedhen.androidbootstrap.BootstrapButton
+                    android:id="@+id/rateandreview"
+                    app:roundedCorners="true"
+                    app:bootstrapBrand="primary"
+                    android:text="Rate and Review Shop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

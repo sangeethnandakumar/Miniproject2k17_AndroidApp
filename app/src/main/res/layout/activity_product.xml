@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_log_in"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="nasa.nearby.LogInActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.beardedhen.androidbootstrap.BootstrapWell
+            app:bootstrapSize="xs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_marginLeft="5dp"
+                        android:src="@drawable/barcode"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent" />
+                <LinearLayout
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:textColor="#5c92af"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:layout_marginTop="5dp"
+                        android:text="GRIPPER"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textSize="12dp"
+                        android:text="From ['CELLO'] Company"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textColor="#6e5a84"
+                        android:textStyle="bold"
+                        android:textSize="15dp"
+                        android:text="Found in ['PENS']"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textColor="#924ae6"
+                        android:textStyle="bold"
+                        android:textSize="15dp"
+                        android:text="Price Range [5Rs - 8Rs]"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textColor="#000"
+                        android:textSize="15dp"
+                        android:text="Available across [14 shops]"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <com.beardedhen.androidbootstrap.BootstrapButton
+                        android:id="@+id/filterbutton"
+                        android:layout_marginTop="5dp"
+                        app:roundedCorners="true"
+                        android:text="Filter Results"
+                        app:bootstrapBrand="info"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.beardedhen.androidbootstrap.BootstrapWell>
+        <ListView
+            android:id="@+id/shoplist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ListView>
+    </LinearLayout>
+</RelativeLayout>

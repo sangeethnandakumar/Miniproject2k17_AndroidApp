@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:weightSum="5"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_weight="3.2"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:scaleType="centerCrop"
+            android:id="@+id/shopinfo_image"
+            android:src="#000"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_weight="1.8"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:textColor="#207ddf"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:id="@+id/shopinfo_shopname"
+            android:textSize="25dp"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:text="Shop Name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textColor="@color/black"
+            android:id="@+id/shopinfo_shopdesc"
+            android:textAlignment="center"
+            android:text="Text description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ScrollView
+            android:scrollbars="none"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp">
+                    <ImageView
+                        android:src="@drawable/shopid"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent" />
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:layout_marginLeft="10dp"
+                            android:textSize="18dp"
+                            android:text="Shop ID"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:textAllCaps="true"
+                            android:textColor="#000"
+                            android:textStyle="bold"
+                            android:id="@+id/shopinfo_id"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="13dp"
+                            android:text="loading..."
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp">
+                    <ImageView
+                        android:src="@drawable/shoptype"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent" />
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:layout_marginLeft="10dp"
+                            android:textSize="18dp"
+                            android:text="Shop Type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:textAllCaps="true"
+                            android:textColor="#000"
+                            android:textStyle="bold"
+                            android:id="@+id/shopinfo_type"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="13dp"
+                            android:text="loading..."
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp">
+                    <ImageView
+                        android:src="@drawable/shoplocation"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent" />
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:layout_marginLeft="10dp"
+                            android:textSize="18dp"
+                            android:text="Shop Location"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:textAllCaps="true"
+                            android:textColor="#000"
+                            android:textStyle="bold"
+                            android:id="@+id/shopinfo_lattitude"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="13dp"
+                            android:text="loading..."
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:textAllCaps="true"
+                            android:textColor="#000"
+                            android:textStyle="bold"
+                            android:id="@+id/shopinfo_longitude"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="13dp"
+                            android:text="loading..."
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp">
+                    <ImageView
+                        android:src="@drawable/shopowner"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent" />
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:layout_marginLeft="10dp"
+                            android:textSize="18dp"
+                            android:text="Shop Owner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:textAllCaps="true"
+                            android:textColor="#000"
+                            android:textStyle="bold"
+                            android:id="@+id/shopinfo_owner"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="13dp"
+                            android:text="loading..."
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp">
+                    <ImageView
+                        android:src="@drawable/shoprating"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent" />
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:layout_marginLeft="10dp"
+                            android:textSize="18dp"
+                            android:text="Shop Rating"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:textAllCaps="true"
+                            android:textColor="#000"
+                            android:textStyle="bold"
+                            android:id="@+id/shopinfo_rating"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="13dp"
+                            android:text="loading..."
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp">
+                    <ImageView
+                        android:src="@drawable/debitcard"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent" />
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:layout_marginLeft="10dp"
+                            android:textSize="18dp"
+                            android:text="Debitcard Accepted"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:textAllCaps="true"
+                            android:textColor="#000"
+                            android:textStyle="bold"
+                            android:id="@+id/shopinfo_debitcard"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="13dp"
+                            android:text="loading..."
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp">
+                    <ImageView
+                        android:src="@drawable/paytm"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent" />
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:layout_marginLeft="10dp"
+                            android:textSize="18dp"
+                            android:text="PayTm Accepted"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:textAllCaps="true"
+                            android:textColor="#000"
+                            android:textStyle="bold"
+                            android:id="@+id/shopinfo_paytm"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="13dp"
+                            android:text="loading..."
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp">
+                    <ImageView
+                        android:src="@drawable/timings"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent" />
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:layout_marginLeft="10dp"
+                            android:textSize="18dp"
+                            android:text="Shop Timings"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:textAllCaps="true"
+                            android:textColor="#000"
+                            android:textStyle="bold"
+                            android:id="@+id/shopinfo_starttime"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="13dp"
+                            android:text="loading..."
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:textAllCaps="true"
+                            android:textColor="#000"
+                            android:textStyle="bold"
+                            android:id="@+id/shopinfo_stoptype"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="13dp"
+                            android:text="loading..."
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

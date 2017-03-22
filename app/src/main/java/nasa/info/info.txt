@@ -1,0 +1,9 @@
+Settings Values are
+
+    id  8DigNum
+    staylogin   true/false
+
+PHP Directors
+    1. signup.php
+    2. login.php
+    3. products.php
