@@ -1,6 +1,8 @@
 package nasa.nearby;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -68,18 +70,29 @@ public class SignUpActivity extends Activity {
                     String device= Build.MANUFACTURER;
                     server.setOnServerStatusListner(new ServerConnector.OnServerStatusListner() {
                         @Override
-                        public void onServerResponded(String responce) {
-                            progress.setProgress(100);
-                            AppSettings settings=new AppSettings(getApplicationContext());
-                            settings.saveSettings("staylogin","false");
-                            Toast.makeText(SignUpActivity.this, "Account created. Account ID : "+responce, Toast.LENGTH_SHORT).show();
-                            Handler handler=new Handler();
-                            handler.postDelayed(new Runnable() {
+                        public void onServerResponded(final String responce)
+                        {
+                            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(SignUpActivity.this);
+                            dlgAlert.setMessage("Your new account has been registred succesfully, Now you can login with new creditinals");
+                            dlgAlert.setTitle("Information");
+                            dlgAlert.setCancelable(false);
+                            dlgAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 @Override
-                                public void run() {
-                                    finish();
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    progress.setProgress(100);
+                                    AppSettings settings=new AppSettings(getApplicationContext());
+                                    settings.saveSettings("staylogin","false");
+                                    Toast.makeText(SignUpActivity.this, "Account created. Account ID : "+responce, Toast.LENGTH_SHORT).show();
+                                    Handler handler=new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            finish();
+                                        }
+                                    },1000);
                                 }
-                            },1000);
+                            });
+                            dlgAlert.show();
                         }
                         @Override
                         public void onServerRevoked() {
@@ -87,7 +100,8 @@ public class SignUpActivity extends Activity {
                             progress.setProgress(100);
                         }
                     });
-                    server.connectServer("http://amazinginside.esy.es/signup.php?fname="+fname.getText()+"&lname="+lname.getText()+"&username="+username.getText()+"&password="+password.getText()+"&device="+device);
+                    AppSettings settings=new AppSettings(getApplicationContext());
+                    server.connectServer(settings.retriveSettings("serverurl")+"/signup.php?fname="+fname.getText()+"&lname="+lname.getText()+"&username="+username.getText()+"&password="+password.getText()+"&device="+device);
                 }
             }
         });

@@ -22,7 +22,8 @@
         <activity android:name=".SignUpActivity" />
         <activity
             android:name=".ProductSearch"
-            android:label="@string/title_activity_product_search" />
+            android:label="@string/title_activity_product_search"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".MapActivity"
             android:label="Shops NearBy" />
@@ -34,7 +35,11 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyALmiHyXg8_DwS_2EHRKa7cnqHclpPWpn0" />
 
-        <activity android:name=".ProductActivity"></activity>
+        <activity android:name=".ProductActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".AccountActivity" />
+        <activity android:name=".CompareActivity" />
+        <activity android:name=".OffersActivity"></activity>
     </application>
 
 </manifest>

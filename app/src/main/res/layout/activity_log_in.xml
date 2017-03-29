@@ -104,6 +104,13 @@
                     android:text="Stay logged in"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/opensettings"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#3b26ff"
+                    android:text="Open Settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
                 <LinearLayout
                     android:layout_gravity="bottom"
                     android:weightSum="2"

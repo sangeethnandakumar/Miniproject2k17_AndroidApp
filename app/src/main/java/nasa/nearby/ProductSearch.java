@@ -3,8 +3,10 @@ package nasa.nearby;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -65,12 +67,136 @@ public class ProductSearch extends Activity {
         grid.setAdapter(adapter);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+            {
                 //SHOW NEARBY SHOPS
                 if(i==0)
                 {
                     Intent intent=new Intent(ProductSearch.this,MapActivity.class);
                     startActivity(intent);
+                }
+                //PRODUCT COMPARISON
+                if(i==1)
+                {
+                    Intent x=new Intent(ProductSearch.this,CompareActivity.class);
+                    startActivity(x);
+                }
+                //SHOW ORDERS
+                if(i==2)
+                {
+                }
+                //NEW OFFERS
+                if(i==3)
+                {
+                    Intent x=new Intent(ProductSearch.this,OffersActivity.class);
+                    startActivity(x);
+                }
+                //OPEN WEBSITE
+                if(i==4)
+                {
+                    try
+                    {
+                        Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://amazinginside.esy.es"));
+                        startActivity(myIntent);
+                    }
+                    catch (ActivityNotFoundException e)
+                    {
+                        Toast.makeText(getApplicationContext(), "No application can handle this request.",Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
+                }
+                //ACCOUNT MANAGEMENT
+                if(i==5)
+                {
+                    Intent x=new Intent(ProductSearch.this,AccountActivity.class);
+                    startActivity(x);
+                }
+                //APPLICATION SETTINGS
+                if(i==6)
+                {
+                    Intent x=new Intent(ProductSearch.this,SettingsActivity.class);
+                    startActivity(x);
+                }
+                //GITHUB SOURCECODE
+                if(i==7)
+                {
+                    AlertDialog.Builder builderSingle = new AlertDialog.Builder(ProductSearch.this);
+                    builderSingle.setTitle("View SourceCode for");
+
+                    final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(ProductSearch.this, android.R.layout.select_dialog_singlechoice);
+                    arrayAdapter.add("Android app");
+                    arrayAdapter.add("Desktop software");
+                    arrayAdapter.add("Server Scripts");
+
+                    builderSingle.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            //ANDROID APP
+                           if (which==0)
+                           {
+                               try
+                               {
+                                   Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/sangeethnandakumar/Miniproject2k17_AndroidApp"));
+                                   startActivity(myIntent);
+                               }
+                               catch (ActivityNotFoundException e)
+                               {
+                                   Toast.makeText(getApplicationContext(), "No application can handle this request.",Toast.LENGTH_SHORT).show();
+                                   e.printStackTrace();
+                               }
+                           }
+                            //SERVER SCRIPT
+                            if (which==1)
+                            {
+                                try
+                                {
+                                    Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/sangeethnandakumar/Miniproject2k17_ServerScript"));
+                                    startActivity(myIntent);
+                                }
+                                catch (ActivityNotFoundException e)
+                                {
+                                    Toast.makeText(getApplicationContext(), "No application can handle this request.",Toast.LENGTH_SHORT).show();
+                                    e.printStackTrace();
+                                }
+                            }
+                            //SERVER SCRIPT
+                            if (which==2)
+                            {
+                                try
+                                {
+                                    Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/sangeethnandakumar/Miniproject2k17_DesktopSoftware"));
+                                    startActivity(myIntent);
+                                }
+                                catch (ActivityNotFoundException e)
+                                {
+                                    Toast.makeText(getApplicationContext(), "No application can handle this request.",Toast.LENGTH_SHORT).show();
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    });
+                    builderSingle.show();
+                }
+                //DOWNLOAD BILLING SOFTWARE
+                if(i==8)
+                {
+                }
+                //MINIPROJECT DEATAILS
+                if(i==9)
+                {
+                }
+                //HELP & SUPPORT
+                if(i==10)
+                {
+                    Toast.makeText(ProductSearch.this, "This feature is not yet implimented", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -125,7 +251,7 @@ public class ProductSearch extends Activity {
                 Toast.makeText(ProductSearch.this, "Server is revoking connection. Please LogIn again", Toast.LENGTH_SHORT).show();
             }
         });
-        server.connectServer("http://amazinginside.esy.es/customer_details.php?id="+settings.retriveSettings("id"));
+        server.connectServer(settings.retriveSettings("serverurl")+"/customer_details.php?id="+settings.retriveSettings("id"));
 
         // PRODUCT DATABASE MAPPING
         ServerConnector productfetching=new ServerConnector(getApplicationContext());
@@ -150,15 +276,11 @@ public class ProductSearch extends Activity {
                         search.setDropDownBackgroundResource(R.color.black);
                         search.setThreshold(0);
                         search.setAdapter(adapter);
-                        //ITS CLICK LISTNER
                         search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                String item=adapterView.getItemAtPosition(i).toString();
-                                String[] splits=item.split("- ");
-                                Intent j=new Intent(ProductSearch.this,ProductActivity.class);
-                                j.putExtra("productid",splits[1]);
-                                startActivity(j);
+                                Intent x=new Intent(ProductSearch.this,ProductActivity.class);
+                                startActivity(x);
                             }
                         });
                     }
@@ -177,7 +299,7 @@ public class ProductSearch extends Activity {
                 dlgAlert.create().show();
             }
         });
-        productfetching.connectServer("http://amazinginside.esy.es/productlist.php");
+        productfetching.connectServer(settings.retriveSettings("serverurl")+"/productlist.php");
     }
 
 

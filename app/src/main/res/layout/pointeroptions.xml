@@ -13,7 +13,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="40dp">
             <ImageView
                 android:src="@drawable/shopinfo"
                 android:layout_width="60dp"
@@ -37,7 +37,7 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="40dp">
             <ImageView
                 android:src="@drawable/planroute"
                 android:layout_width="60dp"
@@ -61,7 +61,7 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="40dp">
             <ImageView
                 android:src="@drawable/contactshop"
                 android:layout_width="60dp"
@@ -74,7 +74,7 @@
                 <com.beardedhen.androidbootstrap.BootstrapButton
                     android:id="@+id/contactshop"
                     app:roundedCorners="true"
-                    app:bootstrapBrand="secondary"
+                    app:bootstrapBrand="warning"
                     android:text="Contact Shopkeeper"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
@@ -85,7 +85,7 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="40dp">
             <ImageView
                 android:src="@drawable/rateandreview"
                 android:layout_width="60dp"

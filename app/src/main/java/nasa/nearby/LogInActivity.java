@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
@@ -42,6 +43,26 @@ public class LogInActivity extends Activity
         staylogin=(CheckBox)findViewById(R.id.login_staylogin);
         settings=new AppSettings(getApplicationContext());
 
+        try
+        {
+            if (!settings.retriveSettings("serverurl").startsWith("http"))
+            {
+                Toast.makeText(this, "Server connection URL reseted", Toast.LENGTH_SHORT).show();
+                settings.saveSettings("serverurl","http://amazinginside.esy.es");
+            }
+        }
+        catch (Exception e)
+        {}
+
+        TextView opensettings=(TextView)findViewById(R.id.opensettings);
+        opensettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(LogInActivity.this,SettingsActivity.class);
+                startActivity(i);
+            }
+        });
+
         staylogin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -56,17 +77,27 @@ public class LogInActivity extends Activity
             }
         });
 
-        if(settings.retriveSettings("staylogin").equals("true"))
+        try
         {
-            staylogin.setChecked(true);
-            Intent intent=new Intent(LogInActivity.this,ProductSearch.class);
-            startActivity(intent);
-            finish();
+            if (settings.retriveSettings("disableautologin").equals("false"))
+            {
+                if(settings.retriveSettings("staylogin").equals("true"))
+                {
+                    staylogin.setChecked(true);
+                    Intent intent=new Intent(LogInActivity.this,ProductSearch.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else
+                {
+                    staylogin.setChecked(false);
+                }
+            }
         }
-        else
-        {
-            staylogin.setChecked(false);
-        }
+        catch (Exception e)
+        {}
+
+
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,7 +169,7 @@ public class LogInActivity extends Activity
                             progress.setProgress(100);
                         }
                     });
-                    server.connectServer("http://amazinginside.esy.es/login.php?username="+username.getText()+"&password="+password.getText()+"");
+                    server.connectServer(settings.retriveSettings("serverurl")+"/login.php?username="+username.getText()+"&password="+password.getText()+"");
                 }
             }
         });

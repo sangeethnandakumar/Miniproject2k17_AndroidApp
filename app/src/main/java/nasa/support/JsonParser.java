@@ -22,12 +22,14 @@ public class JsonParser
     private List<Shopkeeper> shopkeepers=new ArrayList<>();
     private List<Shop> shops=new ArrayList<>();
     private List<Product> products=new ArrayList<>();
+    private List<Offer> offers=new ArrayList<>();
 
     //Listner object
     public OnCustomersParserListner customer_listner;
     public OnShopkeepersParserListner shopkeeper_listner;
     public OnShopsParserListner shop_listner;
     public OnProductsParserListner product_listner;
+    public OnOffersParserListner offer_listner;
 
     // Interface Listners
     public interface OnCustomersParserListner
@@ -46,6 +48,10 @@ public class JsonParser
     {
         public void onProductsParsed(List<Product> products);
     }
+    public interface OnOffersParserListner
+    {
+        public void onOffersParsed(List<Offer> offers);
+    }
 
 
 
@@ -54,6 +60,8 @@ public class JsonParser
     public void setOnJsonParseListner(OnShopkeepersParserListner mylistner) { shopkeeper_listner=mylistner; }
     public void setOnJsonParseListner(OnShopsParserListner mylistner) { shop_listner=mylistner; }
     public void setOnJsonParseListner(OnProductsParserListner mylistner) { product_listner=mylistner; }
+    public void setOnJsonParseListner(OnOffersParserListner mylistner) { offer_listner=mylistner; }
+
 
     //Constructor
     public JsonParser(Context context, String jsontext)
@@ -225,4 +233,42 @@ public class JsonParser
         }
     }
 
+    //Json pre-parsing
+    public void parseOffers()
+    {
+        // If json is true
+        if (jsontext != null)
+        {
+            try
+            {
+                //Create a JSON object
+                JSONObject jsonObj = new JSONObject(jsontext);
+                // Getting JSON Array node
+                JSONArray json = jsonObj.getJSONArray("details");
+                // Looping through All Contacts
+                for (int i = 0; i < json.length(); i++)
+                {
+                    JSONObject details = json.getJSONObject(i);
+                    //Get all customer details from JSON file
+                    String id = details.getString("id");
+                    String shopid = details.getString("shopid");
+                    String name = details.getString("name");
+                    String desc = details.getString("desc");
+                    String added = details.getString("added");
+                    String expiry = details.getString("expiry");
+                    //Add to list
+                    offers.add(new Offer(Integer.parseInt(id), Integer.parseInt(shopid), name, desc, added, expiry));
+                }
+                offer_listner.onOffersParsed(offers);
+            }
+            catch (final JSONException e)
+            {
+                Toast.makeText(context, "Error in parsing JSON", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else
+        {
+            Toast.makeText(context, "JSON text is empty", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

@@ -155,7 +155,8 @@ public class MapActivity extends Activity implements OnMapReadyCallback
                                                            progress.dismiss();
                                                        }
                                                    });
-                                                   gettel.connectServer("http://amazinginside.esy.es/contactshop.php?id="+shops.get(Integer.parseInt(marker.getSnippet())).getId()+"");
+                                                   AppSettings settings=new AppSettings(getApplicationContext());
+                                                   gettel.connectServer(settings.retriveSettings("serverurl")+"/contactshop.php?id="+shops.get(Integer.parseInt(marker.getSnippet())).getId()+"");
                                                }
                                            });
 
@@ -196,7 +197,8 @@ public class MapActivity extends Activity implements OnMapReadyCallback
 
                 }
             });
-            server.connectServer("http://amazinginside.esy.es/shoplist.php");
+            AppSettings settings=new AppSettings(getApplicationContext());
+            server.connectServer(settings.retriveSettings("serverurl")+"/shoplist.php");
         }
         catch (Exception e)
         {
