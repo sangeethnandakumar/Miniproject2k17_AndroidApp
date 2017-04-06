@@ -217,8 +217,10 @@ public class JsonParser
                     String price = details.getString("price");
                     String quantity = details.getString("quantity");
                     String type = details.getString("type");
+                    String specs = details.getString("specs");
+                    String tax = details.getString("tax");
                     //Add to list
-                    products.add(new Product(Integer.parseInt(id),Integer.parseInt(shopid),product,company,Double.parseDouble(price),Integer.parseInt(quantity),type));
+                    products.add(new Product(Integer.parseInt(id),Integer.parseInt(shopid),product,company,Double.parseDouble(price),Integer.parseInt(quantity),type,specs,Double.parseDouble(tax)));
                 }
                 product_listner.onProductsParsed(products);
             }

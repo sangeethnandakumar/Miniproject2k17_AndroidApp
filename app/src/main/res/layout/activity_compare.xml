@@ -12,11 +12,10 @@
     tools:context="nasa.nearby.ProductSearch">
 
     <LinearLayout
+        android:weightSum="2"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="match_parent">
 
         <com.beardedhen.androidbootstrap.BootstrapWell
             android:layout_width="match_parent"
@@ -68,6 +67,7 @@
         </com.beardedhen.androidbootstrap.BootstrapWell>
 
         <ScrollView
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
@@ -289,25 +289,32 @@
                 </LinearLayout>
                 <LinearLayout
                     android:layout_marginBottom="10dp"
-                    android:layout_margin="10dp"
                     android:weightSum="2"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <ProgressBar
-                        android:progress="32"
+                    <TextView
                         android:id="@+id/price1"
-                        style="?android:attr/progressBarStyleHorizontal"
+                        android:background="#7feca0"
+                        android:textColor="#4b4b4b"
+                        android:layout_weight="1"
+                        android:textSize="20dp"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="00.00 Rs/-"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                    <ProgressBar
-                        android:progress="55"
+                        android:layout_height="match_parent" />
+                    <TextView
                         android:id="@+id/price2"
-                        style="?android:attr/progressBarStyleHorizontal"
+                        android:background="#65faff"
+                        android:textColor="#002aff"
+                        android:layout_weight="1"
+                        android:textSize="20dp"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="00.00 Rs/-"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        android:layout_height="match_parent" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -357,9 +364,29 @@
                         android:layout_height="match_parent" />
                 </LinearLayout>
 
-
             </LinearLayout>
         </ScrollView>
 
+
+           <LinearLayout
+               android:layout_marginTop="5dp"
+                android:weightSum="2"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ListView
+                    android:layout_weight="1"
+                    android:id="@+id/proA"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </ListView>
+                <ListView
+                    android:layout_weight="1"
+                    android:id="@+id/proB"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </ListView>
+
+            </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

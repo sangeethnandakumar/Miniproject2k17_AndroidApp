@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -104,8 +105,8 @@ public class CompareActivity extends Activity {
                                 TextView product2=(TextView)findViewById(R.id.product2);
                                 TextView company1=(TextView)findViewById(R.id.company1);
                                 TextView company2=(TextView)findViewById(R.id.company2);
-                                ProgressBar progress1=(ProgressBar)findViewById(R.id.price1);
-                                ProgressBar progress2=(ProgressBar)findViewById(R.id.price2);
+                                TextView price1=(TextView)findViewById(R.id.price1);
+                                TextView price2=(TextView)findViewById(R.id.price2);
                                 TextView type1=(TextView)findViewById(R.id.type1);
                                 TextView type2=(TextView)findViewById(R.id.type2);
 
@@ -115,17 +116,43 @@ public class CompareActivity extends Activity {
                                 company1.setText(products.get(0).getCompany());
                                 type1.setText(products.get(0).getType());
 
-                                int max=(int)products.get(0).getPrice()+(int)products.get(1).getPrice();
-                                progress1.setMax(max);
-                                progress2.setMax(max);
-                                progress1.setProgress(((int)products.get(0).getPrice()));
-                                progress2.setProgress(((int)products.get(1).getPrice()));
+                                price1.setText(String.valueOf(products.get(0).getPrice())+"Rs /-");
+                                price2.setText(String.valueOf(products.get(1).getPrice())+"Rs /-");
                                 
                                 id2.setText(String.valueOf(products.get(1).getId()));
                                 shop2.setText(String.valueOf(products.get(1).getShopid()));
                                 product2.setText(products.get(1).getProduct());
                                 company2.setText(products.get(1).getCompany());
                                 type2.setText(products.get(1).getType());
+
+
+                                ListView listViewA = (ListView) findViewById(R.id.proA);
+                                ListView listViewB = (ListView) findViewById(R.id.proB);
+                                List<String> Alist=new ArrayList<String>();
+                                List<String> Blist=new ArrayList<String>();
+                                String[] Aspecs=products.get(0).getSpecs().split(",");
+                                String[] Bspecs=products.get(1).getSpecs().split(",");
+
+                                for(int j=0;j<Aspecs.length;j++)
+                                {
+                                    String[] Aparts=Aspecs[j].split("=");
+                                    String property=Aparts[0].toUpperCase();
+                                    String value=Aparts[1];
+                                    Alist.add(property+" : "+value);
+                                }
+                                ArrayAdapter adapterA = new ArrayAdapter<String>(getApplicationContext(),R.layout.property_a,R.id.propA, Alist);
+                                listViewA.setAdapter(adapterA);
+
+                                for(int j=0;j<Bspecs.length;j++)
+                                {
+                                    String[] Bparts=Bspecs[j].split("=");
+                                    String property=Bparts[0].toUpperCase();
+                                    String value=Bparts[1];
+                                    Blist.add(property+" : "+value);
+                                }
+                                ArrayAdapter adapterB = new ArrayAdapter<String>(getApplicationContext(),R.layout.property_b,R.id.propB, Blist);
+                                listViewB.setAdapter(adapterB);
+
                             }
                         });
                         parser.parseProducts();
