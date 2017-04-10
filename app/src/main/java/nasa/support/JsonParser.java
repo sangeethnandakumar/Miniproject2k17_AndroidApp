@@ -23,6 +23,7 @@ public class JsonParser
     private List<Shop> shops=new ArrayList<>();
     private List<Product> products=new ArrayList<>();
     private List<Offer> offers=new ArrayList<>();
+    private List<SearchItem> searches=new ArrayList<>();
 
     //Listner object
     public OnCustomersParserListner customer_listner;
@@ -30,6 +31,7 @@ public class JsonParser
     public OnShopsParserListner shop_listner;
     public OnProductsParserListner product_listner;
     public OnOffersParserListner offer_listner;
+    public OnSearchesParserListner searches_listner;
 
     // Interface Listners
     public interface OnCustomersParserListner
@@ -52,6 +54,10 @@ public class JsonParser
     {
         public void onOffersParsed(List<Offer> offers);
     }
+    public interface OnSearchesParserListner
+    {
+        public void onSearchesParsed(List<SearchItem> searches);
+    }
 
 
 
@@ -61,6 +67,7 @@ public class JsonParser
     public void setOnJsonParseListner(OnShopsParserListner mylistner) { shop_listner=mylistner; }
     public void setOnJsonParseListner(OnProductsParserListner mylistner) { product_listner=mylistner; }
     public void setOnJsonParseListner(OnOffersParserListner mylistner) { offer_listner=mylistner; }
+    public void setOnJsonParseListner(OnSearchesParserListner mylistner) { searches_listner=mylistner; }
 
 
     //Constructor
@@ -177,8 +184,10 @@ public class JsonParser
                     String openat=details.getString("openat");
                     String closeat=details.getString("closeat");
                     String imageurl=details.getString("imageurl");
+                    String phone=details.getString("phone");
+                    String delevery=details.getString("delevery");
                     //Add to list
-                    shops.add(new Shop(Integer.parseInt(id),shopname,shoptype,shopdesc,Double.parseDouble(lattitude),Double.parseDouble(longitude),Integer.parseInt(owner),Double.parseDouble(rating),debitcard,paytm,openat,closeat,imageurl));
+                    shops.add(new Shop(Integer.parseInt(id),shopname,shoptype,shopdesc,Double.parseDouble(lattitude),Double.parseDouble(longitude),Integer.parseInt(owner),Double.parseDouble(rating),debitcard,paytm,openat,closeat,imageurl,phone,delevery));
                 }
                 shop_listner.onShopsParsed(shops);
             }
@@ -219,8 +228,9 @@ public class JsonParser
                     String type = details.getString("type");
                     String specs = details.getString("specs");
                     String tax = details.getString("tax");
+                    String image = details.getString("image");
                     //Add to list
-                    products.add(new Product(Integer.parseInt(id),Integer.parseInt(shopid),product,company,Double.parseDouble(price),Integer.parseInt(quantity),type,specs,Double.parseDouble(tax)));
+                    products.add(new Product(Integer.parseInt(id),Integer.parseInt(shopid),product,company,Double.parseDouble(price),Integer.parseInt(quantity),type,specs,Double.parseDouble(tax),image));
                 }
                 product_listner.onProductsParsed(products);
             }
@@ -262,6 +272,40 @@ public class JsonParser
                     offers.add(new Offer(Integer.parseInt(id), Integer.parseInt(shopid), name, desc, added, expiry));
                 }
                 offer_listner.onOffersParsed(offers);
+            }
+            catch (final JSONException e)
+            {
+                Toast.makeText(context, "Error in parsing JSON", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else
+        {
+            Toast.makeText(context, "JSON text is empty", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //Json pre-parsing
+    public void parseSearches()
+    {
+        // If json is true
+        if (jsontext != null)
+        {
+            try
+            {
+                //Create a JSON object
+                JSONObject jsonObj = new JSONObject(jsontext);
+                // Getting JSON Array node
+                JSONArray json = jsonObj.getJSONArray("details");
+                // Looping through All Contacts
+                for (int i = 0; i < json.length(); i++)
+                {
+                    JSONObject details = json.getJSONObject(i);
+                    //Get all customer details from JSON file
+                    String name = details.getString("product");
+                    //Add to list
+                    searches.add(new SearchItem(name));
+                }
+                searches_listner.onSearchesParsed(searches);
             }
             catch (final JSONException e)
             {

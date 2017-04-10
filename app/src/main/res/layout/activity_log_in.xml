@@ -41,7 +41,7 @@
                         android:text="You need to LogIn to continue"/>
                 </com.beardedhen.androidbootstrap.BootstrapWell>
                 <ImageView
-                    android:src="@drawable/login"
+                    android:src="@drawable/new_login"
                     android:layout_margin="10dp"
                     android:layout_gravity="center"
                     android:layout_width="100dp"

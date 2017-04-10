@@ -22,8 +22,10 @@ public class Shop implements Serializable
     private String openat;
     private String closeat;
     private String imageurl;
+    private String phone;
+    private String delevery;
 
-    public Shop(int id, String shopname, String shoptype, String shopdesc, double lattitude, double longitude, int owner, double rating, String debitcard, String paytm, String openat, String closeat, String imageurl) {
+    public Shop(int id, String shopname, String shoptype, String shopdesc, double lattitude, double longitude, int owner, double rating, String debitcard, String paytm, String openat, String closeat, String imageurl, String phone, String delevery) {
         this.id = id;
         this.shopname = shopname;
         this.shoptype = shoptype;
@@ -37,6 +39,8 @@ public class Shop implements Serializable
         this.openat = openat;
         this.closeat = closeat;
         this.imageurl = imageurl;
+        this.phone = phone;
+        this.delevery = delevery;
     }
 
     public int getId() {
@@ -141,5 +145,21 @@ public class Shop implements Serializable
 
     public void setImageurl(String imageurl) {
         this.imageurl = imageurl;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getDelevery() {
+        return delevery;
+    }
+
+    public void setDelevery(String delevery) {
+        this.delevery = delevery;
     }
 }

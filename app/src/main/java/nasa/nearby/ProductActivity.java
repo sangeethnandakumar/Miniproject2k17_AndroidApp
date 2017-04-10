@@ -1,173 +1,95 @@
-// PACKAGE NAME
 package nasa.nearby;
 
-// IMPORT PACKAGE
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.beardedhen.androidbootstrap.BootstrapButton;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import nasa.support.AppSettings;
+import nasa.support.JsonParser;
+import nasa.support.Product;
+import nasa.support.SearchAdapter;
 import nasa.support.ServerConnector;
 
-// MAIN CLASS - ProductActivity
 public class ProductActivity extends Activity
 {
-    // AFTER ACTIVITY CREATED
+    String search;
+    AppSettings settings;
+    ListView searchlist;
+    ProgressDialog progress;
+    SearchAdapter adapter;
+
+    public void init()
+    {
+        settings=new AppSettings(getApplicationContext());
+        searchlist=(ListView)findViewById(R.id.searchlist);
+        progress=new ProgressDialog(this);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        // SUPER CONSTRUCTOR
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
-        // RECIVE INTENT
+        init();
         Intent i=getIntent();
-        // GET product-id FROM INTENT
-        String productid=i.getStringExtra("productid");
-        // MESSAGE productid
-        Toast.makeText(this, productid, Toast.LENGTH_SHORT).show();
-        // SETUP FILTER BUTTON
-        BootstrapButton filter=(BootstrapButton)findViewById(R.id.filterbutton);
-        // WHEN FILTER CLICKED
-        filter.setOnClickListener(new View.OnClickListener()
+        search=i.getStringExtra("search");
+        settings.saveSettings("search",search);
+        progress.setTitle("Please wait");
+        progress.setMessage("Looking for products...");
+        progress.show();
+
+        ServerConnector server=new ServerConnector(getApplicationContext());
+        server.setOnServerStatusListner(new ServerConnector.OnServerStatusListner()
         {
             @Override
-            public void onClick(View view)
+            public void onServerResponded(String responce)
             {
-                // OPEN DIALOG
-                final Dialog dialog = new Dialog(ProductActivity.this);
-                dialog.setContentView(R.layout.filterdialog);
-                dialog.setTitle("Filter Shops");
-                // SHOW DIALOG
-                dialog.show();
-                // INITIALISE COMPONENTS
-                final TextView value=(TextView)dialog.findViewById(R.id.seekvalue);
-                SeekBar seek=(SeekBar)dialog.findViewById(R.id.seekbar);
-                // WHEN SEEKBAR CHANGED
-                seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+                JsonParser parser=new JsonParser(getApplicationContext(),responce);
+                parser.setOnJsonParseListner(new JsonParser.OnProductsParserListner()
                 {
                     @Override
-                    public void onProgressChanged(SeekBar seekBar, int i, boolean b)
+                    public void onProductsParsed(List<Product> products)
                     {
-                        // UPDATE SEEKBAR VALUE
-                        value.setText(seekBar.getProgress()+1 +" Shops atmost");
-                    }
-
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-                        // NO USE
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-                        // NO USE
+                        adapter=new SearchAdapter(getApplicationContext(),products);
+                        searchlist.setDivider(null);
+                        searchlist.setAdapter(adapter);
+                        progress.dismiss();
                     }
                 });
+                parser.parseProducts();
+            }
 
-                // SETUP CANCEL BUTTON
-                BootstrapButton cancel=(BootstrapButton)dialog.findViewById(R.id.cancel);
-                // WHEN CANCEL BUTTON CLICKED
-                cancel.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View view)
-                    {
-                        // CLOSE DIALOG
-                        dialog.dismiss();
-                    }
-                });
+            @Override
+            public void onServerRevoked()
+            {
+                Toast.makeText(ProductActivity.this, "Something error occured", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-                // INITIALISE COMPONENTS
-                final RadioButton sortprice=(RadioButton)dialog.findViewById(R.id.sortprice);
-                final RadioButton sortdistance=(RadioButton)dialog.findViewById(R.id.sortdistance);
-                final RadioButton sortrating=(RadioButton)dialog.findViewById(R.id.sortrating);
-                final CheckBox checkoutofstock=(CheckBox)dialog.findViewById(R.id.checkoutofstock);
-                final CheckBox checkunrated=(CheckBox)dialog.findViewById(R.id.checkunrated);
-                BootstrapButton filter=(BootstrapButton)dialog.findViewById(R.id.filter);
-                // WHEN FILTER BUTTON CLICKED INSIDE DIALOG
-                filter.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View view)
-                    {
-                        // ARGS=NULL
-                        String args="";
-                        // SETIUP PROGRESS
-                        ProgressDialog dlgAlert  = new ProgressDialog(ProductActivity.this);
-                        dlgAlert.setMessage("Applying filters. Connecting to server...");
-                        dlgAlert.setCancelable(true);
-                        dlgAlert.setTitle("Please wait");
-                        // SHOW PROGRESS
-                        dlgAlert.show();
-                        // UPDATE ARGUMENTS
-                        if (sortprice.isChecked())
-                        {
-                            args+="price_";
-                        }
-                        else
-                        {
-                            args+="null_";
-                        }
-                        if (sortdistance.isChecked())
-                        {
-                            args+="distance_";
-                        }
-                        else
-                        {
-                            args+="null_";
-                        }
-                        if (sortrating.isChecked())
-                        {
-                            args+="rating_";
-                        }
-                        else
-                        {
-                            args+="null_";
-                        }
-                        if (checkoutofstock.isChecked())
-                        {
-                            args+="out_";
-                        }
-                        if (checkunrated.isChecked())
-                        {
-                            args+="unrated_";
-                        }
-                        else
-                        {
-                            args+="null_";
-                        }
-                        // MESSAGE ARGS
-                        Toast.makeText(ProductActivity.this, args, Toast.LENGTH_SHORT).show();
-                        // SETUP SERVER CONNECTION
-                        ServerConnector loadshops=new ServerConnector(getApplicationContext());
-                        // AFTER CONNECTION
-                        loadshops.setOnServerStatusListner(new ServerConnector.OnServerStatusListner()
-                        {
-                            // ON SERVER RESPONDED
-                            @Override
-                            public void onServerResponded(String responce)
-                            {
-                                // MESSAGE responce
-                                Toast.makeText(ProductActivity.this, responce, Toast.LENGTH_SHORT).show();
-                            }
+        server.connectServer(settings.retriveSettings("serverurl")+"/searchresult.php?like="+search);
 
-                            @Override
-                            public void onServerRevoked()
-                            {
-                                // MESSAGE ERROR
-                            }
-                        });
-
-                        //CONNECT TO URL @ null
-                        loadshops.connectServer("");
-                    }
-                });
+        searchlist.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                Intent x=new Intent(ProductActivity.this,BookingActivity.class);
+                x.putExtra("search",i);
+                startActivity(x);
             }
         });
     }

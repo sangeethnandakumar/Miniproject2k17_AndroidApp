@@ -15,8 +15,9 @@ public class Product
     private String type;
     private String specs;
     private double tax;
+    private String image;
 
-    public Product(int id, int shopid, String product, String company, double price, int quantity, String type,String specs,double tax) {
+    public Product(int id, int shopid, String product, String company, double price, int quantity, String type, String specs, double tax, String image) {
         this.id = id;
         this.shopid = shopid;
         this.product = product;
@@ -24,8 +25,9 @@ public class Product
         this.price = price;
         this.quantity = quantity;
         this.type = type;
-        this.specs=specs;
-        this.tax=tax;
+        this.specs = specs;
+        this.tax = tax;
+        this.image = image;
     }
 
     public int getId() {
@@ -98,5 +100,13 @@ public class Product
 
     public void setTax(double tax) {
         this.tax = tax;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

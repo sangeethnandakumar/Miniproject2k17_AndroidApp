@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+    <TextView
+        android:textAllCaps="true"
+        android:textColor="#000"
+        android:id="@+id/property"
+        android:layout_marginLeft="10dp"
+        android:text="Max read speed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:textAllCaps="false"
+        android:textAlignment="textStart"
+        android:id="@+id/value"
+        android:textColor="#fff"
+        android:background="#ff2e4d"
+        android:text="  355Mbps"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
+</LinearLayout>

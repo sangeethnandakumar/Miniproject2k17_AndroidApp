@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:background="#fff"
+        android:id="@+id/oneitem"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="140dp">
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:id="@+id/search_image"
+            android:src="@drawable/packet"
+            android:layout_width="80dp"
+            android:layout_height="match_parent" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_marginTop="5dp"
+                android:textColor="#5e5e5e"
+                android:id="@+id/search_name"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:text="Moto G5 Plus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="10dp"
+                android:id="@+id/search_rating"
+                android:textColor="#000"
+                android:background="#6ff50f"
+                android:text="4.3 STAR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="12dp"
+                android:textColor="#5e5e5e"
+                android:id="@+id/search_company"
+                android:text="From : Motorolla"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/search_price"
+                android:textColor="#122a79"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:text="Rs. 14350 /-"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="#5e5e5e"
+                android:id="@+id/search_type"
+                android:textSize="10dp"
+                android:text="Found in : SMARTPHONES"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+                <TextView
+                    android:textSize="12dp"
+                    android:textColor="#5e5e5e"
+                    android:id="@+id/search_quantity"
+                    android:textStyle="bold"
+                    android:text="320 Remaining"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/round"
+                    android:layout_gravity="center"
+                    android:background="@drawable/round_red"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp" />
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:text="NOT AVAILABLE"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

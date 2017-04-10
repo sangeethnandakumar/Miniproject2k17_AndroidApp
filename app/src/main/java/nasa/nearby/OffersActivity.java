@@ -38,6 +38,7 @@ public class OffersActivity extends Activity {
                     public void onOffersParsed(List<Offer> offers) {
                         progress.dismiss();
                         OfferAdapter adapter=new OfferAdapter(getApplicationContext(),offers);
+                        offerlist.setDivider(null);
                         offerlist.setAdapter(adapter);
                     }
                 });

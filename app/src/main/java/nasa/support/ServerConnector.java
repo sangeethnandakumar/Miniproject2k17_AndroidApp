@@ -8,24 +8,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-/**
- * Created by Sangeeth Nandakumar on 18-02-2017.
- * Highly optimised Google's Volley driven async webpage source downloader
- */
-
 public class ServerConnector
 {
-    //Member variables
     private Context context;
 
-    //Override interfaces
     public interface OnServerStatusListner
     {
         public void onServerResponded(String responce);
         public void onServerRevoked();
     }
 
-    //New listner
     private OnServerStatusListner listner;
 
     //Listner function

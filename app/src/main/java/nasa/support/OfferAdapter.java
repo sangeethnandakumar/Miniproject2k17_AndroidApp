@@ -60,7 +60,7 @@ public class OfferAdapter extends BaseAdapter
         shop.setText("Offered Shop : "+String.valueOf(offers.get(i).getShopid()).toString());
         validfrom.setText("Offer Valid From : "+offers.get(i).getStart());
         validthrough.setText("Offer Valid Until : "+offers.get(i).getStop());
-        offer.setText(offers.get(i).getOffer());
+        offer.setText("' "+offers.get(i).getOffer()+" '");
         desc.setText(offers.get(i).getDesc());
         //Return
         return offerView;

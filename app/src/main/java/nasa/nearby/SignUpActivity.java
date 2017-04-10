@@ -1,7 +1,5 @@
-// PACKAGE NAME
 package nasa.nearby;
 
-// IMPORT OTHER PACKAGES
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,133 +14,115 @@ import com.beardedhen.androidbootstrap.BootstrapProgressBar;
 import nasa.support.AppSettings;
 import nasa.support.ServerConnector;
 
-// MAIN CLASS - SignUpActivity
 public class SignUpActivity extends Activity
 {
-    // INITIALISE CONTROLS
-    ServerConnector server;
     BootstrapProgressBar progress;
     BootstrapButton signup;
+    BootstrapEditText fname;
+    BootstrapEditText lname;
+    BootstrapEditText username;
+    BootstrapEditText password;
+    AlertDialog.Builder dialog;
+    AppSettings settings;
+    String device;
 
-    // WHEN ACTIVITY CREATED
+    public void init()
+    {
+        signup=(BootstrapButton)findViewById(R.id.signup_signupbutton);
+        progress=(BootstrapProgressBar)findViewById(R.id.signup_progressbar);
+        fname=(BootstrapEditText)findViewById(R.id.signup_fname);
+        lname=(BootstrapEditText)findViewById(R.id.signup_lname);
+        username=(BootstrapEditText)findViewById(R.id.signup_username);
+        password=(BootstrapEditText)findViewById(R.id.signup_password);
+        settings=new AppSettings(getApplicationContext());
+        dialog= new AlertDialog.Builder(SignUpActivity.this);
+    }
+
+    public void signup()
+    {
+        if(fname.getText().length()<=1)
+        {
+            fname.setError("Firstname should contain atleast 2 letters");
+        }
+        else if(lname.getText().length()<1)
+        {
+            lname.setError("Lastname should contain atleast 1 letters");
+        }
+        else if(username.getText().length()<=1)
+        {
+            username.setError("Username should contain atleast 2 letters");
+        }
+        else if(password.getText().length()<=1)
+        {
+            password.setError("Password should contain atleast 2 letters");
+        }
+        else if(password.getText().length()>8)
+        {
+            password.setError("Password should contain atmost 8 letters");
+        }
+        else
+        {
+            progress.setVisibility(View.VISIBLE);
+            progress.setProgress(67);
+            signup.setEnabled(false);
+            device= Build.MANUFACTURER;
+            ServerConnector server=new ServerConnector(getApplicationContext());
+            server.setOnServerStatusListner(new ServerConnector.OnServerStatusListner()
+            {
+                @Override
+                public void onServerResponded(final String responce)
+                {
+                    dialog.setMessage("Your new account has been registred succesfully, Now you can login with new creditinals");
+                    dialog.setTitle("Information");
+                    dialog.setCancelable(false);
+                    dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i)
+                        {
+                            progress.setProgress(100);
+                            settings.saveSettings("staylogin","false");
+                            Toast.makeText(SignUpActivity.this, "Account created. Account ID : "+responce, Toast.LENGTH_SHORT).show();
+                            Handler handler=new Handler();
+                            handler.postDelayed(new Runnable()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    finish();
+                                }
+                            },1000);
+                        }
+                    });
+                    dialog.show();
+                }
+
+                @Override
+                public void onServerRevoked()
+                {
+                    Toast.makeText(SignUpActivity.this, "Unable to create this account", Toast.LENGTH_SHORT).show();
+                    progress.setProgress(100);
+                }
+            });
+
+            server.connectServer(settings.retriveSettings("serverurl")+"/signup.php?fname="+fname.getText()+"&lname="+lname.getText()+"&username="+username.getText()+"&password="+password.getText()+"&device="+device);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        // SUPER CONSTRUCTOR
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
-        // ASSIGN CONTROLS
-        signup=(BootstrapButton)findViewById(R.id.signup_signupbutton);
-        progress=(BootstrapProgressBar)findViewById(R.id.signup_progressbar);
-        server=new ServerConnector(this);
-
-        // WHEN signup BUTTON CLICKED
+        init();
         signup.setOnClickListener(new View.OnClickListener()
         {
-            // ON CLICK
             @Override
             public void onClick(View view)
             {
-                // ASSIGN CONTROLS
-                BootstrapEditText fname=(BootstrapEditText)findViewById(R.id.signup_fname);
-                BootstrapEditText lname=(BootstrapEditText)findViewById(R.id.signup_lname);
-                final BootstrapEditText username=(BootstrapEditText)findViewById(R.id.signup_username);
-                final BootstrapEditText password=(BootstrapEditText)findViewById(R.id.signup_password);
-
-                // VALIDATION
-                if(fname.getText().length()<=1)
-                {
-                    fname.setError("Firstname should contain atleast 2 letters");
-                }
-                else if(lname.getText().length()<1)
-                {
-                    lname.setError("Lastname should contain atleast 1 letters");
-                }
-                else if(username.getText().length()<=1)
-                {
-                    username.setError("Username should contain atleast 2 letters");
-                }
-                else if(password.getText().length()<=1)
-                {
-                    password.setError("Password should contain atleast 2 letters");
-                }
-                else if(password.getText().length()>8)
-                {
-                    password.setError("Password should contain atmost 8 letters");
-                }
-                // ELSE
-                else
-                {
-                    // SET PROGRESSBAR = 33
-                    progress.setVisibility(View.VISIBLE);
-                    progress.setProgress(33);
-                    // DISABLE signup BUTTON
-                    signup.setEnabled(false);
-                    // GET DEVICE MAKER NAME
-                    String device= Build.MANUFACTURER;
-                    // SETUP SERVER CONNECTION
-                    server.setOnServerStatusListner(new ServerConnector.OnServerStatusListner()
-                    {
-                        // ON SERVER RESPONDED
-                        @Override
-                        public void onServerResponded(final String responce)
-                        {
-                            // SETUP MESSAGE DIALOG
-                            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(SignUpActivity.this);
-                            dlgAlert.setMessage("Your new account has been registred succesfully, Now you can login with new creditinals");
-                            dlgAlert.setTitle("Information");
-                            dlgAlert.setCancelable(false);
-                            // WHEN "OK" CLICKED
-                            dlgAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener()
-                            {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i)
-                                {
-                                    // SET PROGRESS = 100
-                                    progress.setProgress(100);
-                                    // SETUP APP SETTINGS
-                                    AppSettings settings=new AppSettings(getApplicationContext());
-                                    // SAVE SETTINGS -> staylogin = FALSE
-                                    settings.saveSettings("staylogin","false");
-                                    // MESSAGE
-                                    Toast.makeText(SignUpActivity.this, "Account created. Account ID : "+responce, Toast.LENGTH_SHORT).show();
-                                    // HANDLER TO DELAY 1sec
-                                    Handler handler=new Handler();
-                                    handler.postDelayed(new Runnable()
-                                    {
-                                        @Override
-                                        public void run()
-                                        {
-                                            // KILL THIS ACTIVITY
-                                            finish();
-                                        }
-                                    },1000);
-                                }
-                            });
-                            // SHOW MESSAGE DIALOG
-                            dlgAlert.show();
-                        }
-
-                        // WHEN SERVER ERROR
-                        @Override
-                        public void onServerRevoked()
-                        {
-                            // MESSAGE
-                            Toast.makeText(SignUpActivity.this, "Unable to create this account", Toast.LENGTH_SHORT).show();
-                            // SET PROGRESS = 100
-                            progress.setProgress(100);
-                        }
-                    });
-
-                    // SETUP APP SETTINGS
-                    AppSettings settings=new AppSettings(getApplicationContext());
-                    // CONNECT TO SERVER @ https://amazinginside.esy.es/sighup.php?fname=&lname=&username=&password=&device=
-                    server.connectServer(settings.retriveSettings("serverurl")+"/signup.php?fname="+fname.getText()+"&lname="+lname.getText()+"&username="+username.getText()+"&password="+password.getText()+"&device="+device);
-                }
+                signup();
             }
         });
-
     }
 
 }

@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -32,6 +34,7 @@ public class MapActivity extends Activity implements OnMapReadyCallback
     private GoogleMap mMap;
     private JsonParser parser;
     private int i=0;
+    double lat,lng;
 
     // ACTIVITY CREATED
     @Override
@@ -39,11 +42,22 @@ public class MapActivity extends Activity implements OnMapReadyCallback
     {
         // SUPER CONSTRUCTOR
         super.onCreate(savedInstanceState);
+        Intent i=getIntent();
+        lat=i.getDoubleExtra("lat",0);
+        lng=i.getDoubleExtra("lng",0);
         setContentView(R.layout.activity_map);
         // FIND Google Maps
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         // GET MAP IN async THREAD TO AVOID HANGING
         mapFragment.getMapAsync(this);
+    }
+
+    public void pointMap()
+    {
+        CameraUpdate center=CameraUpdateFactory.newLatLng(new LatLng(lat, lng));
+        CameraUpdate zoom= CameraUpdateFactory.zoomTo(18);
+        mMap.moveCamera(center);
+        mMap.animateCamera(zoom);
     }
 
     // WHEN GoogleMap IS READY
@@ -58,6 +72,10 @@ public class MapActivity extends Activity implements OnMapReadyCallback
         mMap.setMyLocationEnabled(true);
         // CALL FUNCTION - listAllShopsOnMap()
         listAllShopsOnMap();
+        if (lat!=0 && lng!=0)
+        {
+            pointMap();
+        }
     }
 
     // FUNCTION - listAllShopsOnMap

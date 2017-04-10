@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_log_in"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    tools:context="nasa.nearby.LogInActivity">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:typeface="monospace"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:textAlignment="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="5dp"
+            android:textSize="23dp"
+            android:text="Under 3.4Km From You"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_marginTop="10dp"
+                android:id="@+id/productimage"
+                android:src="@drawable/packet"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+        <TextView
+            android:layout_marginLeft="16dp"
+            android:id="@+id/item_name"
+            android:layout_marginTop="5dp"
+            android:textSize="23dp"
+            android:text="Cadbury Oreo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginLeft="16dp"
+            android:id="@+id/item_company"
+            android:textSize="10dp"
+            android:text="From Cadbury"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginLeft="16dp"
+            android:id="@+id/item_price"
+            android:textStyle="bold"
+            android:textColor="#393939"
+            android:textSize="20dp"
+            android:text="₹ 5.00 /- Only"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginLeft="16dp"
+                android:textStyle="bold"
+                android:id="@+id/item_quantity"
+                android:textColor="#000"
+                android:textSize="16dp"
+                android:text="355 Remaining"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <Button
+                android:id="@+id/changeshop"
+                android:textColor="#fff"
+                android:background="#ff2e4d"
+                android:text="Change Shop"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <Button
+                android:textColor="#fff"
+                android:background="#c41a33"
+                android:text="Add To Wishlist"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:background="#000"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <TextView
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="5dp"
+            android:textSize="18dp"
+            android:text="Valuable Informations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:weightSum="2"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:src="@drawable/distance"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" />
+                <TextView
+                    android:id="@+id/distance"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:text="5.65 KM's"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:src="@drawable/scooter"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" />
+                <TextView
+                    android:id="@+id/delevery"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:text="AVAILABLE"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:weightSum="2"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:src="@drawable/paytm"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" />
+                <TextView
+                    android:textAllCaps="true"
+                    android:id="@+id/paytm"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:text="ACCEPTED"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:src="@drawable/debitcard"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" />
+                <TextView
+                    android:textAllCaps="true"
+                    android:id="@+id/visa"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:text="ACCEPTED"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <Button
+                android:id="@+id/gotoshop"
+                android:textStyle="bold"
+                android:textSize="13dp"
+                android:textColor="#fff"
+                android:background="#0c8603"
+                android:text="GO TO SHOP"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/book"
+                android:textStyle="bold"
+                android:textSize="13dp"
+                android:textColor="#fff"
+                android:background="#17c60a"
+                android:text="BOOK NOW"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:background="#000"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <TextView
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="5dp"
+            android:textSize="18dp"
+            android:text="Product Specifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <Button
+            android:layout_marginTop="10dp"
+            android:id="@+id/specs"
+            android:textStyle="bold"
+            android:textSize="13dp"
+            android:textColor="#fff"
+            android:background="#17c60a"
+            android:text="PRODUCT SPECIFICATIONS"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/compare"
+            android:textStyle="bold"
+            android:textSize="13dp"
+            android:textColor="#fff"
+            android:background="#0c8603"
+            android:text="COMPARE WITH ANOTHER PRODUCT"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:background="#000"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <TextView
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="5dp"
+            android:textSize="18dp"
+            android:text="Product Sold By"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_margin="16dp"
+            android:background="@drawable/rectangle"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="160dp">
+            <ImageView
+                android:layout_margin="10dp"
+                android:id="@+id/shopimage"
+                android:src="@drawable/shopinfo"
+                android:layout_width="100dp"
+                android:layout_height="match_parent" />
+            <LinearLayout
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/shopname"
+                    android:textColor="#000"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:text="Anna Traders"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/shoptype"
+                    android:textColor="#494949"
+                    android:text="Hardware shop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/shoponmap"
+                    android:layout_marginTop="5dp"
+                    android:background="#6a21e6"
+                    android:textColor="#ffffff"
+                    android:text="Shop on Map"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp" />
+                <Button
+                    android:id="@+id/callshop"
+                    android:layout_marginTop="5dp"
+                    android:background="#4e2299"
+                    android:textColor="#ffffff"
+                    android:text="Make a call to shop"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:background="#000"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+    </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
