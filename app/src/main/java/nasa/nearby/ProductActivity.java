@@ -1,23 +1,16 @@
+//PACKAGE
 package nasa.nearby;
 
+//IMPORT PACKAGE
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
-import com.beardedhen.androidbootstrap.BootstrapButton;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import nasa.support.AppSettings;
 import nasa.support.JsonParser;
 import nasa.support.Product;
@@ -76,7 +69,7 @@ public class ProductActivity extends Activity
             @Override
             public void onServerRevoked()
             {
-                Toast.makeText(ProductActivity.this, "Something error occured", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProductActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
             }
         });
 

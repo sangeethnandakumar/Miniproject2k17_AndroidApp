@@ -1,10 +1,13 @@
+//PACKAGE
 package nasa.nearby;
 
+//IMPORT PACKAGES
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -27,130 +30,121 @@ import nasa.support.Shop;
 import nasa.support.Spec;
 import nasa.support.SpecAdapter;
 
-public class BookingActivity extends Activity {
+public class BookingActivity extends Activity
+{
     double lat=0,lng=0;
     String telephone="0000000000";
     int shopid=00000000;
     List<Spec> specslist;
+    AppSettings settings;
+    TextView name;
+    TextView company;
+    TextView price;
+    TextView quantity;
+    TextView shopname;
+    TextView shoptype;
+    TextView paytm;
+    TextView visa;
+    Button changeshop;
+    Button gotoshop;
+    Button callshop;
+    Button shoponmap;
+    Button specs;
+    TextView delevery;
+    Button book;
+    ProgressDialog progress;
+    Dialog dialog;
+    AlertDialog.Builder alert;
+    ImageView round;
+    TextView status;
+    int search;
+    TextView distance;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_booking);
-        final AppSettings settings=new AppSettings(getApplicationContext());
+    public void init()
+    {
+        settings=new AppSettings(getApplicationContext());
+        name=(TextView)findViewById(R.id.item_name);
+        company=(TextView)findViewById(R.id.item_company);
+        price=(TextView)findViewById(R.id.item_price);
+        quantity=(TextView)findViewById(R.id.item_quantity);
+        shopname=(TextView)findViewById(R.id.shopname);
+        shoptype=(TextView)findViewById(R.id.shoptype);
+        paytm=(TextView)findViewById(R.id.paytm);
+        visa=(TextView)findViewById(R.id.visa);
+        changeshop=(Button)findViewById(R.id.changeshop);
+        gotoshop=(Button)findViewById(R.id.gotoshop);
+        callshop=(Button)findViewById(R.id.callshop);
+        shoponmap=(Button)findViewById(R.id.shoponmap);
+        specs=(Button)findViewById(R.id.specs);
+        delevery=(TextView) findViewById(R.id.delevery);
+        book=(Button) findViewById(R.id.book);
+        progress=new ProgressDialog(this);
+        dialog=new Dialog(BookingActivity.this);
+        alert  = new AlertDialog.Builder(BookingActivity.this);
+        round=(ImageView) findViewById(R.id.round);
+        status=(TextView) findViewById(R.id.status);
+        distance=(TextView) findViewById(R.id.distance);
+    }
 
-        Intent i=getIntent();
-        final int search=i.getIntExtra("search",0);
-        final TextView name=(TextView)findViewById(R.id.item_name);
-        final TextView company=(TextView)findViewById(R.id.item_company);
-        final TextView price=(TextView)findViewById(R.id.item_price);
-        final TextView quantity=(TextView)findViewById(R.id.item_quantity);
-        final TextView shopname=(TextView)findViewById(R.id.shopname);
-        final TextView shoptype=(TextView)findViewById(R.id.shoptype);
-        final TextView paytm=(TextView)findViewById(R.id.paytm);
-        final TextView visa=(TextView)findViewById(R.id.visa);
-        final Button changeshop=(Button)findViewById(R.id.changeshop);
-        final Button gotoshop=(Button)findViewById(R.id.gotoshop);
-        final Button callshop=(Button)findViewById(R.id.callshop);
-        final Button shoponmap=(Button)findViewById(R.id.shoponmap);
-        final Button specs=(Button)findViewById(R.id.specs);
-        final TextView delevery=(TextView) findViewById(R.id.delevery);
-        final Button book=(Button) findViewById(R.id.book);
+    public void showOnMap()
+    {
+        Intent x=new Intent(BookingActivity.this,MapActivity.class);
+        x.putExtra("lat",lat);
+        x.putExtra("lng",lng);
+        startActivity(x);
+    }
 
-        final ProgressDialog progress=new ProgressDialog(this);
-        progress.setTitle("Please wait");
-        progress.setMessage("Querying product informations...");
-        progress.show();
+    public void openSpecs()
+    {
+        dialog.setContentView(R.layout.spec_sheet);
+        dialog.setTitle("Product Specifications");
+        SpecAdapter adapter=new SpecAdapter(getApplicationContext(),specslist);
+        ListView specsheet=(ListView)dialog.findViewById(R.id.speclist);
+        specsheet.setAdapter(adapter);
+        dialog.show();
+    }
 
-        book.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        shoponmap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent x=new Intent(BookingActivity.this,MapActivity.class);
-                x.putExtra("lat",lat);
-                x.putExtra("lng",lng);
-                startActivity(x);
-            }
-        });
-
-        specs.setOnClickListener(new View.OnClickListener()
+    public void callToShop()
+    {
+        ServerConnector server=new ServerConnector(getApplicationContext());
+        server.setOnServerStatusListner(new ServerConnector.OnServerStatusListner()
         {
             @Override
-            public void onClick(View view)
+            public void onServerResponded(String responce)
             {
-                Dialog options=new Dialog(BookingActivity.this);
-                options.setContentView(R.layout.spec_sheet);
-                options.setTitle("Product Specifications");
-                SpecAdapter adapter=new SpecAdapter(getApplicationContext(),specslist);
-                ListView specsheet=(ListView)options.findViewById(R.id.speclist);
-                specsheet.setAdapter(adapter);
-                // SHOW DIALOG
-                options.show();
-            }
-        });
-
-        callshop.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-            ServerConnector server=new ServerConnector(getApplicationContext());
-                server.setOnServerStatusListner(new ServerConnector.OnServerStatusListner()
+                if (responce.length()<5)
                 {
-                    @Override
-                    public void onServerResponded(String responce)
-                    {
-                        if (responce.length()<5)
-                        {
-                            // SETUP ALERTBOX
-                            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(BookingActivity.this);
-                            dlgAlert.setMessage("There is no contact information registred with this shop");
-                            dlgAlert.setTitle("Information");
-                            dlgAlert.setPositiveButton("OK",null);
-                            dlgAlert.setCancelable(true);
-                            //SHOW ALERTBOX
-                            dlgAlert.create().show();
-                        }
-                        // ELSE
-                        else
-                        {
-                            // OPEN DIALLER WITH PHONENO: TYPED
-                            Intent intent = new Intent(Intent.ACTION_DIAL);
-                            intent.setData(Uri.parse("tel:"+responce+""));
-                            startActivity(intent);
-                        }
+                    alert.setMessage("There is no contact information registred with this shop");
+                    alert.setTitle("Information");
+                    alert.setPositiveButton("OK",null);
+                    alert.setCancelable(true);
+                    alert.create().show();
                 }
-
-                    @Override
-                    public void onServerRevoked() {
-
-                    }
-                });
-                server.connectServer(settings.retriveSettings("serverurl")+"/contactshop.php?id="+shopid);
+                else
+                {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:"+responce+""));
+                    startActivity(intent);
+                }
             }
-        });
 
-        changeshop.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                finish();
+            public void onServerRevoked()
+            {
+                Toast.makeText(BookingActivity.this, "Unstable server responce or internet", Toast.LENGTH_SHORT).show();
             }
         });
+        server.connectServer(settings.retriveSettings("serverurl")+"/contactshop.php?id="+shopid);
+    }
 
-        gotoshop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr="+lat+","+lng+""));
-                startActivity(intent);
-            }
-        });
+    public void gotoShop()
+    {
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr="+lat+","+lng+""));
+        startActivity(intent);
+    }
 
+    public void fetchDetails()
+    {
         ServerConnector server=new ServerConnector(getApplicationContext());
         server.setOnServerStatusListner(new ServerConnector.OnServerStatusListner()
         {
@@ -167,26 +161,27 @@ public class BookingActivity extends Activity {
                         name.setText(myproduct.getCompany()+" "+myproduct.getProduct());
                         company.setText("Offered By "+myproduct.getCompany());
                         price.setText("₹ "+String.valueOf(myproduct.getPrice())+"/-");
-                        if (myproduct.getQuantity()<10)
+                        if (myproduct.getQuantity()==0)
                         {
                             quantity.setTextColor(getResources().getColor(R.color.red));
+                            round.setBackgroundResource(R.drawable.round_red);
+                            status.setText("PRODUCT OUT OF STOCK");
                         }
-                        if (myproduct.getQuantity()>10 && myproduct.getQuantity()<25)
+                        if (myproduct.getQuantity()>0 && myproduct.getQuantity()<25)
                         {
                             quantity.setTextColor(getResources().getColor(R.color.yellow));
+                            round.setBackgroundResource(R.drawable.round_yellow);
+                            status.setText("LIMITED PRODUCTS ON STOCK");
                         }
                         if (myproduct.getQuantity()>25)
                         {
                             quantity.setTextColor(getResources().getColor(R.color.green));
+                            round.setBackgroundResource(R.drawable.round_green);
+                            status.setText("PRODUCT UNDER STOCK");
                         }
                         quantity.setText(String.valueOf(myproduct.getQuantity())+" on stocks");
                         ImageView productimage=(ImageView)findViewById(R.id.productimage);
-                        try
-                        {
-                            Picasso.with(getApplicationContext()).load(myproduct.getImage()).into(productimage);
-                        }
-                        catch (Exception e){}
-                        //Display all specs
+                        Picasso.with(getApplicationContext()).load(myproduct.getImage()).into(productimage);
                         String[] Aspecs = myproduct.getSpecs().split(",");
                         specslist=new ArrayList<Spec>();
                         specslist.add(new Spec("PRODUCT NAME",myproduct.getProduct(),0));
@@ -195,13 +190,11 @@ public class BookingActivity extends Activity {
                         specslist.add(new Spec("TAX OVERHEAD","₹ "+String.valueOf(myproduct.getTax())+"/-",1));
                         specslist.add(new Spec("IN STOCKS",String.valueOf(myproduct.getQuantity())+" Left in stocks",0));
                         specslist.add(new Spec("CATEGEORY",myproduct.getType().toUpperCase(),1));
-                        // ADD extra SPECS
                         for (int i=0;i<Aspecs.length;i++)
                         {
                             String[] Aspec=Aspecs[i].split("=");
                             specslist.add(new Spec(Aspec[0],Aspec[1],3));
                         }
-
                         ServerConnector shopdetect=new ServerConnector(getApplicationContext());
                         shopdetect.setOnServerStatusListner(new ServerConnector.OnServerStatusListner()
                         {
@@ -215,9 +208,31 @@ public class BookingActivity extends Activity {
                                     public void onShopsParsed(List<Shop> shops)
                                     {
                                         progress.dismiss();
+                                        Shop myshop = shops.get(0);
                                         try
                                         {
-                                            Shop myshop = shops.get(0);
+                                            Location locationA = new Location("Customer");
+                                            double Alat=Double.parseDouble(settings.retriveSettings("lattitude"));
+                                            double Alng=Double.parseDouble(settings.retriveSettings("longitude"));
+                                            locationA.setLatitude(Alat);
+                                            locationA.setLongitude(Alng);
+
+                                            Location locationB = new Location("Shop");
+                                            double Blat=myshop.getLattitude();
+                                            double Blng=myshop.getLattitude();
+                                            locationB.setLatitude(Blat);
+                                            locationB.setLongitude(Blng);
+
+                                            float kms = Math.round(locationA.distanceTo(locationB)/1000);
+
+                                            distance.setText(String.valueOf(kms)+" Kms");
+                                        }
+                                        catch (Exception e)
+                                        {
+
+                                        }
+                                        try
+                                        {
                                             delevery.setText(myshop.getDelevery().toUpperCase());
                                             if (delevery.getText().toString().toUpperCase().startsWith("NOT"))
                                             {
@@ -234,11 +249,7 @@ public class BookingActivity extends Activity {
                                             telephone=myshop.getPhone();
                                             shopid=myshop.getId();
                                             ImageView shopimage = (ImageView) findViewById(R.id.shopimage);
-                                            try
-                                            {
-                                                Picasso.with(getApplicationContext()).load(myshop.getImageurl()).into(shopimage);
-                                            }
-                                            catch (Exception e) {}
+                                            Picasso.with(getApplicationContext()).load(myshop.getImageurl()).into(shopimage);
                                         }
                                         catch (Exception e)
                                         {
@@ -258,9 +269,7 @@ public class BookingActivity extends Activity {
                         shopdetect.connectServer(settings.retriveSettings("serverurl")+"/getshopfromid.php?id="+myproduct.getShopid());
                     }
                 });
-
-
-                parser.parseProducts();
+               parser.parseProducts();
             }
 
             @Override
@@ -271,4 +280,74 @@ public class BookingActivity extends Activity {
         });
         server.connectServer(settings.retriveSettings("serverurl")+"/searchresult.php?like="+settings.retriveSettings("search"));
     }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_booking);
+        init();
+        Intent i=getIntent();
+        search=i.getIntExtra("search",0);
+        progress.setTitle("Please wait");
+        progress.setMessage("Querying product informations...");
+        progress.show();
+        fetchDetails();
+
+        book.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                // Book button clicked
+            }
+        });
+
+        shoponmap.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                showOnMap();
+            }
+        });
+
+        specs.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                openSpecs();
+            }
+        });
+
+        callshop.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                callToShop();
+            }
+        });
+
+        changeshop.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                finish();
+            }
+        });
+
+        gotoshop.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                gotoShop();
+            }
+        });
+    }
+
 }

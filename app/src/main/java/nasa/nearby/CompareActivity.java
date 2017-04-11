@@ -33,26 +33,31 @@ import nasa.support.ServerConnector;
 import nasa.support.Spec;
 import nasa.support.SpecAdapter;
 
-public class CompareActivity extends Activity {
+public class CompareActivity extends Activity
+{
     List<Spec> Aspecslist;
     List<Spec> Bspecslist;
     ListView Alist,Blist;
     SpecAdapter Aadapter;
     SpecAdapter Badapter;
+    ProgressDialog progress;
+    AppSettings settings;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_compare);
-        final ProgressDialog fetching  = new ProgressDialog(CompareActivity.this);
+    public void init()
+    {
+        progress  = new ProgressDialog(CompareActivity.this);
         Aspecslist=new ArrayList<>();
         Bspecslist=new ArrayList<>();
         Aadapter=new SpecAdapter(getApplicationContext(),Aspecslist);
         Badapter=new SpecAdapter(getApplicationContext(),Bspecslist);
+        settings=new AppSettings(getApplicationContext());
+    }
 
-        // PRODUCT DATABASE MAPPING
+    public void downloadProductList()
+    {
         ServerConnector productfetching=new ServerConnector(getApplicationContext());
-        productfetching.setOnServerStatusListner(new ServerConnector.OnServerStatusListner() {
+        productfetching.setOnServerStatusListner(new ServerConnector.OnServerStatusListner()
+        {
             @Override
             public void onServerResponded(String responce)
             {
@@ -78,134 +83,139 @@ public class CompareActivity extends Activity {
                         searchB.setDropDownBackgroundResource(R.color.black);
                         searchB.setThreshold(0);
                         searchB.setAdapter(adapter);
-                        fetching.dismiss();
+                        progress.dismiss();
                     }
                 });
                 parser.parseProducts();
             }
 
             @Override
-            public void onServerRevoked() {
+            public void onServerRevoked()
+            {
                 Toast.makeText(CompareActivity.this, "Some connectivity error occured", Toast.LENGTH_SHORT).show();
             }
         });
-        AppSettings settings=new AppSettings(getApplicationContext());
-        fetching.setMessage("Fetching global stocks...");
-        fetching.setCancelable(true);
-        fetching.setTitle("Please wait");
-        fetching.show();
+        progress.setMessage("Fetching global stocks...");
+        progress.setCancelable(false);
+        progress.setTitle("Please wait");
+        progress.show();
         productfetching.connectServer(settings.retriveSettings("serverurl")+"/productlist.php");
+    }
+
+    public void compareNow()
+    {
+        Aspecslist.clear();
+        Bspecslist.clear();
+        progress.setMessage("Comparing products. Connecting to server...");
+        progress.setCancelable(false);
+        progress.setTitle("Please wait");
+        progress.show();
+        AutoCompleteTextView boxa=(AutoCompleteTextView)findViewById(R.id.searchboxa);
+        AutoCompleteTextView boxb=(AutoCompleteTextView)findViewById(R.id.searchboxb);
+        ServerConnector server = new ServerConnector(getApplicationContext());
+        if (boxa.getText().toString().equals(boxb.getText().toString()))
+        {
+            Toast.makeText(CompareActivity.this, "You can't compare same products", Toast.LENGTH_SHORT).show();
+            progress.dismiss();
+            Toast.makeText(CompareActivity.this, "Choose 2 different products", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            server.setOnServerStatusListner(new ServerConnector.OnServerStatusListner()
+            {
+                @Override
+                public void onServerResponded(String responce)
+                {
+                    progress.dismiss();
+                    JsonParser parser = new JsonParser(getApplicationContext(), responce);
+                    parser.setOnJsonParseListner(new JsonParser.OnProductsParserListner()
+                    {
+                        @Override
+                        public void onProductsParsed(List<Product> products)
+                        {
+                            String[] Aspecs = products.get(0).getSpecs().split(",");
+                            String[] Bspecs = products.get(1).getSpecs().split(",");
+                            if (!products.get(0).getImage().equals(""))
+                            {
+                                ImageView imageA=(ImageView)findViewById(R.id.imageA);
+                                Picasso.with(getApplicationContext()).load(products.get(0).getImage()).into(imageA);
+                            }
+                            if (!products.get(1).getImage().equals(""))
+                            {
+                                ImageView imageB=(ImageView)findViewById(R.id.imageB);
+                                Picasso.with(getApplicationContext()).load(products.get(1).getImage()).into(imageB);
+                            }
+                            Aspecslist.add(new Spec("PRODUCT NAME",products.get(0).getProduct(),1));
+                            Aspecslist.add(new Spec("MANUFACTURER",products.get(0).getCompany(),0));
+                            Aspecslist.add(new Spec("MRP (Excl tax)","₹ "+String.valueOf(products.get(0).getPrice())+"/-",1));
+                            Aspecslist.add(new Spec("TAX OVERHEAD","₹ "+String.valueOf(products.get(0).getTax())+"/-",0));
+                            Aspecslist.add(new Spec("IN STOCKS",String.valueOf(products.get(0).getQuantity())+" Left in stocks",1));
+                            Aspecslist.add(new Spec("CATEGEORY",products.get(0).getType().toUpperCase(),0));
+                            Bspecslist.add(new Spec("PRODUCT NAME",products.get(1).getProduct(),1));
+                            Bspecslist.add(new Spec("MANUFACTURER",products.get(1).getCompany(),0));
+                            Bspecslist.add(new Spec("MRP (Excl tax)","₹ "+String.valueOf(products.get(1).getPrice())+"/-",1));
+                            Bspecslist.add(new Spec("TAX OVERHEAD","₹ "+String.valueOf(products.get(1).getTax())+"/-",0));
+                            Bspecslist.add(new Spec("IN STOCKS",String.valueOf(products.get(1).getQuantity())+" Left in stocks",1));
+                            Bspecslist.add(new Spec("CATEGEORY",products.get(1).getType().toUpperCase(),0));
+                            for (int i=0;i<Aspecs.length;i++)
+                            {
+                                String[] Aspec=Aspecs[i].split("=");
+                                Aspecslist.add(new Spec(Aspec[0],Aspec[1],3));
+                            }
+                            for (int i=0;i<Bspecs.length;i++)
+                            {
+                                String[] Bspec=Bspecs[i].split("=");
+                                Bspecslist.add(new Spec(Bspec[0],Bspec[1],3));
+                            }
+                            Alist=(ListView)findViewById(R.id.proA);
+                            Blist=(ListView)findViewById(R.id.proB);
+                            Alist.setAdapter(Aadapter);
+                            Blist.setAdapter(Badapter);
+                        }
+                    });
+                    parser.parseProducts();
+                }
+
+                @Override
+                public void onServerRevoked()
+                {
+                    Toast.makeText(CompareActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                }
+            });
+            AutoCompleteTextView searchA = (AutoCompleteTextView) findViewById(R.id.searchboxa);
+            AutoCompleteTextView searchB = (AutoCompleteTextView) findViewById(R.id.searchboxb);
+            String[] id1 = searchA.getText().toString().split(" - ");
+            String[] id2 = searchB.getText().toString().split(" - ");
+            AppSettings settings = new AppSettings(getApplicationContext());
+            server.connectServer(settings.retriveSettings("serverurl") + "/productcomparison.php?id1=" + id1[1] + "&id2=" + id2[1] + "");
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_compare);
+        init();
+        downloadProductList();
 
 
         BootstrapButton compare=(BootstrapButton)findViewById(R.id.compare);
-        compare.setOnClickListener(new View.OnClickListener() {
+        compare.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view)
             {
-                Aspecslist.clear();
-                Bspecslist.clear();
-
                 try
                 {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }catch (Exception e){}
-                final ProgressDialog dlgAlert  = new ProgressDialog(CompareActivity.this);
-                dlgAlert.setMessage("Comparing products. Connecting to server...");
-                dlgAlert.setCancelable(true);
-                dlgAlert.setTitle("Please wait");
-                dlgAlert.show();
-                // CHECK FOR SAME PRODUCT
-                AutoCompleteTextView boxa=(AutoCompleteTextView)findViewById(R.id.searchboxa);
-                AutoCompleteTextView boxb=(AutoCompleteTextView)findViewById(R.id.searchboxb);
-                ServerConnector server = new ServerConnector(getApplicationContext());
-                // CHECK IF PRODUCTS ARE EQUAL
-                if (boxa.getText().toString().equals(boxb.getText().toString()))
+                }
+                catch (Exception e)
                 {
-                    Toast.makeText(CompareActivity.this, "You can't compare same products", Toast.LENGTH_SHORT).show();
-                    dlgAlert.dismiss();
-                    Toast.makeText(CompareActivity.this, "Choose 2 different products", Toast.LENGTH_SHORT).show();
                 }
-                else
-                {
-                        server.setOnServerStatusListner(new ServerConnector.OnServerStatusListner()
-                        {
-                            @Override
-                            public void onServerResponded(String responce)
-                            {
-                                dlgAlert.dismiss();
-                                JsonParser parser = new JsonParser(getApplicationContext(), responce);
-                                parser.setOnJsonParseListner(new JsonParser.OnProductsParserListner()
-                                {
-                                    @Override
-                                    public void onProductsParsed(List<Product> products)
-                                    {
-                                        String[] Aspecs = products.get(0).getSpecs().split(",");
-                                        String[] Bspecs = products.get(1).getSpecs().split(",");
-                                        //SHOW IMAGE IF EXISTS
-                                        if (!products.get(0).getImage().equals(""))
-                                        {
-                                            ImageView imageA=(ImageView)findViewById(R.id.imageA);
-                                            Picasso.with(getApplicationContext()).load(products.get(0).getImage()).into(imageA);
-                                        }
-                                        if (!products.get(1).getImage().equals(""))
-                                        {
-                                            ImageView imageB=(ImageView)findViewById(R.id.imageB);
-                                            Picasso.with(getApplicationContext()).load(products.get(1).getImage()).into(imageB);
-                                        }
-                                        //ADD default SPECS
-                                        Aspecslist.add(new Spec("PRODUCT NAME",products.get(0).getProduct(),1));
-                                        Aspecslist.add(new Spec("MANUFACTURER",products.get(0).getCompany(),0));
-                                        Aspecslist.add(new Spec("MRP (Excl tax)","₹ "+String.valueOf(products.get(0).getPrice())+"/-",1));
-                                        Aspecslist.add(new Spec("TAX OVERHEAD","₹ "+String.valueOf(products.get(0).getTax())+"/-",0));
-                                        Aspecslist.add(new Spec("IN STOCKS",String.valueOf(products.get(0).getQuantity())+" Left in stocks",1));
-                                        Aspecslist.add(new Spec("CATEGEORY",products.get(0).getType().toUpperCase(),0));
-                                        Bspecslist.add(new Spec("PRODUCT NAME",products.get(1).getProduct(),1));
-                                        Bspecslist.add(new Spec("MANUFACTURER",products.get(1).getCompany(),0));
-                                        Bspecslist.add(new Spec("MRP (Excl tax)","₹ "+String.valueOf(products.get(1).getPrice())+"/-",1));
-                                        Bspecslist.add(new Spec("TAX OVERHEAD","₹ "+String.valueOf(products.get(1).getTax())+"/-",0));
-                                        Bspecslist.add(new Spec("IN STOCKS",String.valueOf(products.get(1).getQuantity())+" Left in stocks",1));
-                                        Bspecslist.add(new Spec("CATEGEORY",products.get(1).getType().toUpperCase(),0));
-                                        // ADD extra SPECS
-                                        for (int i=0;i<Aspecs.length;i++)
-                                        {
-                                            String[] Aspec=Aspecs[i].split("=");
-                                            Aspecslist.add(new Spec(Aspec[0],Aspec[1],3));
-                                        }
-                                        //ADD extra SPECS
-                                        for (int i=0;i<Bspecs.length;i++)
-                                        {
-                                            String[] Bspec=Bspecs[i].split("=");
-                                            Bspecslist.add(new Spec(Bspec[0],Bspec[1],3));
-                                        }
-                                        //SETUP LISTVIEW
-                                        Alist=(ListView)findViewById(R.id.proA);
-                                        Blist=(ListView)findViewById(R.id.proB);
-                                        //SET ADAPTER
-                                        Alist.setAdapter(Aadapter);
-                                        Blist.setAdapter(Badapter);
-
-                                    }
-                                });
-                                parser.parseProducts();
-                            }
-
-                            @Override
-                            public void onServerRevoked() {
-
-                            }
-                        });
-                        //AFTER COMPLETION
-                        AutoCompleteTextView searchA = (AutoCompleteTextView) findViewById(R.id.searchboxa);
-                        AutoCompleteTextView searchB = (AutoCompleteTextView) findViewById(R.id.searchboxb);
-                        String[] id1 = searchA.getText().toString().split(" - ");
-                        String[] id2 = searchB.getText().toString().split(" - ");
-                        AppSettings settings = new AppSettings(getApplicationContext());
-                        server.connectServer(settings.retriveSettings("serverurl") + "/productcomparison.php?id1=" + id1[1] + "&id2=" + id2[1] + "");
-                }
-                }
+                compareNow();
+            }
         });
-
-
-        }
+    }
 }

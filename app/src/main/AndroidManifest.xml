@@ -41,11 +41,6 @@
         <activity android:name=".CompareActivity" />
         <activity android:name=".OffersActivity" />
         <activity android:name=".BookingActivity" />
-        <activity
-            android:name=".Splashscreen"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_splashscreen"
-            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>

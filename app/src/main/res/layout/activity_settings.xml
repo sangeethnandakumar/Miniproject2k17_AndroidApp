@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_log_in"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -47,10 +46,56 @@
                     android:textStyle="bold"
                     android:textColor="#000"
                     android:layout_margin="10dp"
-                    android:text="Change app preference"
+                    android:text="Change App Preference"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
+                <LinearLayout
+                    android:layout_margin="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rectangle"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textColor="#000"
+                        android:layout_margin="10dp"
+                        android:text="Map Appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <RadioGroup
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <RadioButton
+                            android:id="@+id/satellite"
+                            android:text="Satellite Map"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <RadioButton
+                            android:id="@+id/terrain"
+                            android:text="Terrain Map"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <RadioButton
+                            android:id="@+id/normal"
+                            android:text="Normal Map"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <RadioButton
+                            android:id="@+id/hybrid"
+                            android:text="Hybrid Map"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </RadioGroup>
+                    <CheckBox
+                        android:id="@+id/buildings"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="Show buildings on map"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
                 <LinearLayout
                     android:layout_margin="5dp"
                     android:layout_marginBottom="10dp"
@@ -71,6 +116,39 @@
                             android:text="Disable auto login"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_margin="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rectangle"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textColor="#000"
+                        android:layout_margin="10dp"
+                        android:text="Manual Location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <EditText
+                        android:id="@+id/lattitude"
+                        android:inputType="numberDecimal"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:textStyle="bold"
+                        android:hint="Lattitude"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <EditText
+                        android:id="@+id/longitude"
+                        android:inputType="numberDecimal"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:textStyle="bold"
+                        android:hint="Longitude"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_margin="5dp"

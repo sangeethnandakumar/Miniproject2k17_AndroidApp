@@ -1,7 +1,5 @@
-// PACKAGE NAME
 package nasa.nearby;
 
-// IMPORT PACKAGES
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -19,6 +17,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.List;
@@ -27,28 +26,32 @@ import nasa.support.JsonParser;
 import nasa.support.ServerConnector;
 import nasa.support.Shop;
 
-// MAIN CLASS - MapActivity WITH INTERFACE - OnMapReadyCallback
 public class MapActivity extends Activity implements OnMapReadyCallback
 {
-    // INITIALISE VARIABLES
     private GoogleMap mMap;
     private JsonParser parser;
     private int i=0;
     double lat,lng;
+    MapFragment mapFragment;
+    AppSettings settings;
 
-    // ACTIVITY CREATED
+    public void init()
+    {
+        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        settings=new AppSettings(getApplicationContext());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        // SUPER CONSTRUCTOR
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_map);
+        init();
+
         Intent i=getIntent();
         lat=i.getDoubleExtra("lat",0);
         lng=i.getDoubleExtra("lng",0);
-        setContentView(R.layout.activity_map);
-        // FIND Google Maps
-        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        // GET MAP IN async THREAD TO AVOID HANGING
+
         mapFragment.getMapAsync(this);
     }
 
@@ -60,17 +63,34 @@ public class MapActivity extends Activity implements OnMapReadyCallback
         mMap.animateCamera(zoom);
     }
 
-    // WHEN GoogleMap IS READY
     @Override
     public void onMapReady(GoogleMap googleMap)
     {
-        // ASSIGN GMap
         mMap = googleMap;
-        // ENABLE BUILDINGS
-        mMap.setBuildingsEnabled(false);
-        // ENABLE CURRENT LOCATION
+
+        if (settings.retriveSettings("maptype").equals("satellite"))
+        {
+            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        }
+        else if (settings.retriveSettings("maptype").equals("terrain"))
+        {
+            mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+        }
+        else if (settings.retriveSettings("maptype").equals("normal"))
+        {
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        }
+        else if (settings.retriveSettings("maptype").equals("hybrid"))
+        {
+            mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        }
+
+        if (settings.retriveSettings("showmapbuildings").equals("yes"))
+        {
+            mMap.setBuildingsEnabled(true);
+        }
+
         mMap.setMyLocationEnabled(true);
-        // CALL FUNCTION - listAllShopsOnMap()
         listAllShopsOnMap();
         if (lat!=0 && lng!=0)
         {
